@@ -1,13 +1,46 @@
 import urllib.request
 from bs4 import BeautifulSoup
+from PIL import Image
+import pytesseract
+import io
 
-theurl = "https://www.mein-mittwochmarkt.de/Marktplatz/dies-und-das.html?sl=60400"
+main_site = "https://www.mein-mittwochmarkt.de"
+
+markt_site = "".join([main_site,"/Marktplatz/"])
+
+theurl = "".join([markt_site, "dies-und-das.html?sl=60400"])
 thepage = urllib.request.urlopen(theurl)
 soup = BeautifulSoup(thepage,"html.parser")
 print(soup.title.text)
 
+
+def text_from_img_url(img_url):
+    """
+    return ocr output from image
+    """
+    with urllib.request.urlopen(img_url) as url:
+
+        f = io.BytesIO(url.read())
+
+        return pytesseract.image_to_string(Image.open(f), lang='eng')
+
+
 for anzeige in soup.findAll('div',{"class":"MarketSearchCtrl_ResultList_Image"}):
-        print(anzeige.find('a').get('href'))
+        anzeige_url = anzeige.find('a').get('href')
+        if anzeige_url:
+            # alle anzeigen, wenn anzeige_url
+            this_url = "".join([main_site, anzeige_url])
+            sub_soup = BeautifulSoup(urllib.request.urlopen(this_url),"html.parser")
+
+
+            for item in sub_soup.findAll('div',{"class":"lightBoxDiv"}):
+                img_url = "".join([markt_site, item.find('a').get('href')])
+
+                img_text = text_from_img_url(img_url)
+
+                if len(img_text.split('\n')) <= 10:
+                    print(img_text, )
+
 
 #theurl2 = "https://www.mein-mittwochmarkt.de/Marktplatz/Motiv-m128823.html?from=29.05.2019&to=04.06.2019&sort=tblMotif.dtmWebBegin+desc&sl=60400&cid=70300&sl=60400&branch="
 #for image in soup.findAll('div',{"class":"lightBoxDiv"}):
@@ -18,7 +51,7 @@ for anzeige in soup.findAll('div',{"class":"MarketSearchCtrl_ResultList_Image"})
 
 
 
-
+#https://www.mein-mittwochmarkt.de/Marktplatz/Motif/Korb-Rattan-TruhenAuswahl-Korbhaus-Tue-Kilchberg-Bahnhofs--v3-w1024-h-m128814.jpg
 
 
 #for img in soup.findAll('img'):
