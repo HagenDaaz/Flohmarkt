@@ -22,8 +22,8 @@ for link in soup.findAll('a'):
 
 liste = []
 for anzeigen in soup.findAll('article',{"class":"teaser"}):
-    print(i)
-    print(anzeigen.find('p').text)
+    print(anzeigen)
+    #print(anzeigen.find('p').text)
     i = i + 1
     #liste.append(str(i) + ". " + str(anzeigen.find('p').text))
 
