@@ -55,7 +55,7 @@ for eachurl in urls:
 
                 for item in sub_soup.findAll('div',{"class":"lightBoxDiv"}):
                     img_url = "".join([markt_site, item.find('a').get('href')])
-
+                    #print(img_url)
                     img_text = text_from_img_url(img_url)
 
                     if len(img_text.split('\n')) <= 10:
