@@ -1,15 +1,19 @@
-def machWas(parameter):
-    parameter = parameter - 2
-    parameter = parameter / 4
-    return parameter
+from openpyxl import Workbook
+from openpyxl.compat import range
+from openpyxl.utils import get_column_letter
+from openpyxl import load_workbook
 
-a = 20
+liste=[1,4,3]
+Spalte="A"
 
-b = a / 5
+wb = load_workbook(filename = 'test.xlsx')
 
+dest_filename = 'test.xlsx'
 
-c = machWas(b)
+ws1 = wb.active
+ws1.title = "WebData"
 
+#for i in liste:
+ws1('A1')=5
 
-
-print(c)
+wb.save(filename = dest_filename)

@@ -10,9 +10,9 @@ wb = load_workbook(filename = 'test.xlsx')
 dest_filename = 'test.xlsx'
 
 ws1 = wb.active
-ws1.title = "range names"
+ws1.title = "WebData"
 
-ws2 = wb.create_sheet(title="Hagen")
+#ws2 = wb.create_sheet(title="Hagen")
 
 i = 0
 
@@ -38,9 +38,11 @@ for anzeigen in soup.findAll('article',{"class":"teaser"}):
     i = i + 1
     liste.append(str(i) + ". " + str(anzeigen.find('p').text))
 
-print(liste[8])
-
-ws2['F5'] = liste[1]
+i=1
+for Anzeige in liste:
+    ws1.cell(row=i, column=1).value = Anzeige
+    #print(liste[i])
+    i=i+1
 
 
 wb.save(filename = dest_filename)
