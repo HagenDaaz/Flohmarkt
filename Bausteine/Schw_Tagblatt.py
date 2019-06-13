@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from PIL import Image
 import pytesseract
 import io
+from openpyxl import load_workbook
 
 main_site = "https://www.mein-mittwochmarkt.de"
 
@@ -25,6 +26,7 @@ theurl14 = "".join([markt_site, "dies-und-das-Part4.html?sl=70000&nPart=4"])
 
 urls = ([theurl1, theurl2, theurl3, theurl4, theurl5, theurl6, theurl7, theurl8, theurl9, theurl10, theurl11, theurl12, theurl13, theurl14])
 pageno=1
+liste=[]
 
 for eachurl in urls:
     print("Seite ", pageno)
@@ -32,6 +34,7 @@ for eachurl in urls:
     thepage = urllib.request.urlopen(eachurl)
     soup = BeautifulSoup(thepage,"html.parser")
     print(soup.title.text)
+    liste.append(soup.title.text)
 
 
     def text_from_img_url(img_url):
@@ -55,12 +58,28 @@ for eachurl in urls:
 
                 for item in sub_soup.findAll('div',{"class":"lightBoxDiv"}):
                     img_url = "".join([markt_site, item.find('a').get('href')])
-                    #print(img_url)
+                    print(img_url)
+                    liste.append(str(img_url))
                     img_text = text_from_img_url(img_url)
+                    liste.append(str(img_text))
 
                     if len(img_text.split('\n')) <= 10:
                         print(img_text, )
 
+wb = load_workbook(filename = 'test.xlsx')
+
+dest_filename = 'test.xlsx'
+
+ws1 = wb.active
+ws1.title = "WebData"
+
+i=0
+for Anzeige in liste:
+    ws1.cell(row=i+1, column=1).value = Anzeige
+    print(liste[i])
+    i=i+1
+
+wb.save(filename=dest_filename)
 
 #theurl2 = "https://www.mein-mittwochmarkt.de/Marktplatz/Motiv-m128823.html?from=29.05.2019&to=04.06.2019&sort=tblMotif.dtmWebBegin+desc&sl=60400&cid=70300&sl=60400&branch="
 #for image in soup.findAll('div',{"class":"lightBoxDiv"}):
