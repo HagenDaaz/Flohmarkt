@@ -14,10 +14,6 @@ ws1.title = "WebData"
 
 #ws2 = wb.create_sheet(title="Hagen")
 
-i = 0
-
-
-
 theurl = "http://www.ntz.de/service/anzeigenservice/kleinanzeigen/marktplatz/"
 
 thepage = urllib.request.urlopen(theurl)
@@ -32,18 +28,11 @@ for link in soup.findAll('a'):
 #print(soup.find('div',{"class":"tx-ntzkleinanz-pi1"}).find('article',{"class":"teaser"}).find('p').text)
 
 liste = []
-for anzeigen in soup.findAll('article',{"class":"teaser"}):
-    #print(i)
-    #print(anzeigen.find('p').text)
-    i = i + 1
-    liste.append(str(i) + ". " + str(anzeigen.find('p').text))
-
-i=1
-for Anzeige in liste:
-    ws1.cell(row=i, column=1).value = Anzeige
-    #print(liste[i])
-    i=i+1
-
+for i, anzeigen in enumerate(soup.findAll('article',{"class":"teaser"})):
+    number = i + 1
+    text = str(number) + ". " + str(anzeigen.find('p').text)
+    #print(number)
+    liste.append(text)
+    ws1.cell(row=i+1, column=1).value = text
 
 wb.save(filename = dest_filename)
-
