@@ -25,61 +25,63 @@ theurl13 = "".join([markt_site, "dies-und-das-Part3.html?sl=70000&nPart=3"])
 theurl14 = "".join([markt_site, "dies-und-das-Part4.html?sl=70000&nPart=4"])
 
 urls = ([theurl1, theurl2, theurl3, theurl4, theurl5, theurl6, theurl7, theurl8, theurl9, theurl10, theurl11, theurl12, theurl13, theurl14])
-pageno=1
-liste=[]
 
-for eachurl in urls:
-    print("Seite ", pageno)
-    pageno=pageno+1
-    thepage = urllib.request.urlopen(eachurl)
-    soup = BeautifulSoup(thepage,"html.parser")
-    print(soup.title.text)
-    liste.append(soup.title.text)
+def text_from_img_url(img_url):
+    """
+    return ocr output from image
+    """
+    with urllib.request.urlopen(img_url) as url:
 
+        f = io.BytesIO(url.read())
+        # deutsches Sprachpaket ausgewählt
+        return pytesseract.image_to_string(Image.open(f), lang='deu')
 
-    def text_from_img_url(img_url):
-        """
-        return ocr output from image
-        """
-        with urllib.request.urlopen(img_url) as url:
+def harvest_url(urls=urls):
+    pageno=1
+    liste=[]
 
-            f = io.BytesIO(url.read())
-            # deutsches Sprachpaket ausgewählt
-            return pytesseract.image_to_string(Image.open(f), lang='deu')
-
-
-    for anzeige in soup.findAll('div',{"class":"MarketSearchCtrl_ResultList_Image"}):
-            anzeige_url = anzeige.find('a').get('href')
-            if anzeige_url:
-                # alle anzeigen, wenn anzeige_url
-                this_url = "".join([main_site, anzeige_url])
-                sub_soup = BeautifulSoup(urllib.request.urlopen(this_url),"html.parser")
+    for eachurl in urls:
+        print("Seite ", pageno)
+        pageno=pageno+1
+        thepage = urllib.request.urlopen(eachurl)
+        soup = BeautifulSoup(thepage,"html.parser")
+        print(soup.title.text)
+        liste.append(soup.title.text)
 
 
-                for item in sub_soup.findAll('div',{"class":"lightBoxDiv"}):
-                    img_url = "".join([markt_site, item.find('a').get('href')])
-                    print(img_url)
-                    liste.append(str(img_url))
-                    img_text = text_from_img_url(img_url)
-                    liste.append(str(img_text))
+        for anzeige in soup.findAll('div',{"class":"MarketSearchCtrl_ResultList_Image"}):
+                anzeige_url = anzeige.find('a').get('href')
+                if anzeige_url:
+                    # alle anzeigen, wenn anzeige_url
+                    this_url = "".join([main_site, anzeige_url])
+                    sub_soup = BeautifulSoup(urllib.request.urlopen(this_url),"html.parser")
 
-                    if len(img_text.split('\n')) <= 10:
-                        print(img_text, )
 
-wb = load_workbook(filename = 'test.xlsx')
+                    for item in sub_soup.findAll('div',{"class":"lightBoxDiv"}):
+                        img_url = "".join([markt_site, item.find('a').get('href')])
+                        print(img_url)
+                        liste.append(str(img_url))
+                        img_text = text_from_img_url(img_url)
+                        liste.append(str(img_text))
 
-dest_filename = 'test.xlsx'
+                        if len(img_text.split('\n')) <= 10:
+                            print(img_text, )
+    return liste
 
-ws1 = wb.active
-ws1.title = "WebData"
-
-i=0
-for Anzeige in liste:
-    ws1.cell(row=i+1, column=1).value = Anzeige
-    print(liste[i])
-    i=i+1
-
-wb.save(filename=dest_filename)
+# wb = load_workbook(filename = 'test.xlsx')
+#
+# dest_filename = 'test.xlsx'
+#
+# ws1 = wb.active
+# ws1.title = "WebData"
+#
+# i=0
+# for Anzeige in liste:
+#     ws1.cell(row=i+1, column=1).value = Anzeige
+#     print(liste[i])
+#     i=i+1
+#
+# wb.save(filename=dest_filename)
 
 #theurl2 = "https://www.mein-mittwochmarkt.de/Marktplatz/Motiv-m128823.html?from=29.05.2019&to=04.06.2019&sort=tblMotif.dtmWebBegin+desc&sl=60400&cid=70300&sl=60400&branch="
 #for image in soup.findAll('div',{"class":"lightBoxDiv"}):
