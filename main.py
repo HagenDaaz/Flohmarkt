@@ -11,7 +11,7 @@ sys.path.append(_basePath)
 
 from Bausteine.xlsxReader import XlsxReader
 from Bausteine.Esslinger_Zeitung import harvest_url as esz_liste
-#from Bausteine.Schw_Tagblatt import harvest_url as schw_tag_liste
+from Bausteine.Schw_Tagblatt import harvest_url as schw_tag_liste
 from Bausteine.WaiblingerWochblatt import harvest_url as waib_liste
 from Bausteine.NuertingerZeitung import harvest_url as nuert_liste
 
@@ -23,10 +23,12 @@ from Bausteine.NuertingerZeitung import harvest_url as nuert_liste
 #                                  "Telefon-nummer", "Text"])
 alleAnzeigen=[]
 liste1 = esz_liste()
-#liste2 = schw_tag_liste()
+liste2 = schw_tag_liste()
 liste3 = waib_liste()
 liste4 = nuert_liste()
-alleAnzeigen = liste1 + liste3 + liste4
+alleAnzeigen = liste1 + liste2 + liste3 + liste4
+
+
 
 
 # i=0

@@ -5,7 +5,7 @@ import pytesseract
 import io
 from openpyxl import load_workbook
 
-main_site = "ttps://www.mein-mittwochmarkt.deh"
+main_site = "https://www.mein-mittwochmarkt.de"
 
 markt_site = "".join([main_site,"/Marktplatz/"])
 
@@ -36,35 +36,35 @@ def text_from_img_url(img_url):
         # deutsches Sprachpaket ausgewählt
         return pytesseract.image_to_string(Image.open(f), lang='deu')
 
-#def harvest_url(urls=urls):
-pageno = 1
-liste = []
+def harvest_url(urls=urls):
+    pageno = 1
+    liste = []
 
-for eachurl in urls:
-    print("Seite ", pageno)
-    pageno = pageno + 1
-    thepage = urllib.request.urlopen(eachurl)
-    soup = BeautifulSoup(thepage, "html.parser")
-    print(soup.title.text)
-    liste.append(soup.title.text)
+    for eachurl in urls:
+        print("Seite ", pageno)
+        pageno = pageno + 1
+        thepage = urllib.request.urlopen(eachurl)
+        soup = BeautifulSoup(thepage, "html.parser")
+        print(soup.title.text)
+        liste.append(soup.title.text)
 
-    for anzeige in soup.findAll('div', {"class": "MarketSearchCtrl_ResultList_Image"}):
-        anzeige_url = anzeige.find('a').get('href')
-        if anzeige_url:
-            # alle anzeigen, wenn anzeige_url
-            this_url = "".join([main_site, anzeige_url])
-            sub_soup = BeautifulSoup(urllib.request.urlopen(this_url), "html.parser")
+        for anzeige in soup.findAll('div', {"class": "MarketSearchCtrl_ResultList_Image"}):
+            anzeige_url = anzeige.find('a').get('href')
+            if anzeige_url:
+                # alle anzeigen, wenn anzeige_url
+                this_url = "".join([main_site, anzeige_url])
+                sub_soup = BeautifulSoup(urllib.request.urlopen(this_url), "html.parser")
 
-            for item in sub_soup.findAll('div', {"class": "lightBoxDiv"}):
-                img_url = "".join([markt_site, item.find('a').get('href')])
-                print(img_url)
-                liste.append(str(img_url))
-                img_text = text_from_img_url(img_url)
-                liste.append(str(img_text))
+                for item in sub_soup.findAll('div', {"class": "lightBoxDiv"}):
+                    img_url = "".join([markt_site, item.find('a').get('href')])
+                    print(img_url)
+                    liste.append(str(img_url))
+                    img_text = text_from_img_url(img_url)
+                    liste.append(str(img_text))
 
-                if len(img_text.split('\n')) <= 10:
-                        print(img_text, )
-    #return liste
+                    if len(img_text.split('\n')) <= 10:
+                            print(img_text, )
+    return liste
 
 # wb = load_workbook(filename = 'test.xlsx')
 #
