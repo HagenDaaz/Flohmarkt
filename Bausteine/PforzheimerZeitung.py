@@ -15,19 +15,27 @@ page_site3 = "costart=51"
 page_site4 = "costart=76"
 page_site5 = "costart=101"
 
-end_site = "&date=0&location=&pageid=2065&puid=6&rubrik%5B0%5D=175&rubrik%5B1%5D=0&pageid=2065"
+end_site1 = "&date=0&location=&pageid=2065&puid=6&rubrik%5B0%5D=175&rubrik%5B1%5D=358&pageid=2065"
+end_site2 = "&date=0&location=&pageid=2065&puid=6&rubrik%5B0%5D=175&rubrik%5B1%5D=360&pageid=2065"
 
 
 
-theurl1 = markt_site + page_site1 + end_site
-theurl2 = markt_site + page_site2 + end_site
-theurl3 = markt_site + page_site3 + end_site
-theurl4 = markt_site + page_site4 + end_site
-theurl5 = markt_site + page_site5 + end_site
+
+theurl1 = markt_site + page_site1 + end_site1
+theurl2 = markt_site + page_site2 + end_site1
+theurl3 = markt_site + page_site3 + end_site1
+theurl4 = markt_site + page_site4 + end_site1
+theurl5 = markt_site + page_site5 + end_site1
+theurl6 = markt_site + page_site1 + end_site2
+theurl7 = markt_site + page_site2 + end_site2
+theurl8 = markt_site + page_site3 + end_site2
+theurl9 = markt_site + page_site4 + end_site2
+theurl10 = markt_site + page_site5 + end_site2
+
 
 print(theurl1)
 
-urls = ([theurl1, theurl2, theurl3, theurl4, theurl5])
+urls = ([theurl1, theurl2, theurl3, theurl4, theurl5, theurl6, theurl7, theurl8, theurl9, theurl10])
 
 def text_from_img_url(img_url):
     """
@@ -39,33 +47,33 @@ def text_from_img_url(img_url):
         # deutsches Sprachpaket ausgewählt
         return pytesseract.image_to_string(Image.open(f), lang='deu')
 
-#def harvest_url(urls=urls):
-pageno = 1
-liste = []
+def harvest_url(urls=urls):
+    pageno = 1
+    liste = []
 
-for eachurl in urls:
-    print("Seite ", pageno)
-    pageno = pageno + 1
-    thepage = urllib.request.urlopen(eachurl)
-    soup = BeautifulSoup(thepage, "html.parser")
-    print(soup.title.text)
-    liste.append(soup.title.text)
+    for eachurl in urls:
+        print("Seite ", pageno)
+        pageno = pageno + 1
+        thepage = urllib.request.urlopen(eachurl)
+        soup = BeautifulSoup(thepage, "html.parser")
+        #print(soup.title.text)
+        liste.append(soup.title.text)
 
-    for anzeige in soup.findAll('section', {"class": "nfy-c-adv-advert-image"}):
-        anzeige_url = anzeige.find('a').get('href')
-        if anzeige_url:
-            # alle anzeigen, wenn anzeige_url
-            this_url = "".join([main_site, anzeige_url])
-            sub_soup = BeautifulSoup(urllib.request.urlopen(this_url), "html.parser")
+        for anzeige in soup.findAll('section', {"class": "nfy-c-adv-advert-image"}):
+            anzeige_url = anzeige.find('a').get('href')
+            if anzeige_url:
+                # alle anzeigen, wenn anzeige_url
+                this_url = "".join([main_site, anzeige_url])
+                sub_soup = BeautifulSoup(urllib.request.urlopen(this_url), "html.parser")
 
-            for item in sub_soup.findAll('aside', {"class": "nfy-c-adv-advert-image"}):
-                img_url = "".join([main_site, item.find('a').get('href')])
-                print(img_url)
-                liste.append(str(img_url))
-                img_text = text_from_img_url(img_url)
-                liste.append(str(img_text))
-                print(img_text)
+                for item in sub_soup.findAll('aside', {"class": "nfy-c-adv-advert-image"}):
+                    img_url = "".join([main_site, item.find('a').get('href')])
+                    print(img_url)
+                    liste.append(str(img_url))
+                    img_text = text_from_img_url(img_url)
+                    liste.append(str(img_text))
+                    print(img_text)
 
-                if len(img_text.split('\n')) <= 10:
-                    print(img_text, )
-#     return liste
+                    if len(img_text.split('\n')) <= 10:
+                        print(img_text, )
+    return liste

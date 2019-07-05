@@ -1,0 +1,6 @@
+- Fehlerbehandlung siehe Pforzheimer Zeitung
+- Südwestpresse auslesen
+- Text als eine Zeile formatieren
+- Anzeigen manuell aussortieren und dann in die jeweilige Spalte kopieren
+- PDfs auslesen
+- ebayKleinazeigen als Bild importieren ("siehe Screenshot Handy") - weitere Ideen finden

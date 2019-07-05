@@ -64,7 +64,7 @@ def harvest_url(urls=urls):
 
                     if len(img_text.split('\n')) <= 10:
                             print(img_text, )
-    return liste
+        return liste
 
 # wb = load_workbook(filename = 'test.xlsx')
 #

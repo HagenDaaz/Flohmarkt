@@ -1,5 +1,6 @@
 from PIL import Image
 import pytesseract
+from openpyxl import load_workbook
 
 im = Image.open("test1.jpg")
 
