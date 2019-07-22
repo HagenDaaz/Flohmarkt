@@ -35,7 +35,9 @@ theurl10 = markt_site + page_site5 + end_site2
 
 print(theurl1)
 
-urls = ([theurl1, theurl2, theurl3, theurl4, theurl5, theurl6, theurl7, theurl8, theurl9, theurl10])
+#urls = ([theurl1, theurl2, theurl3, theurl4, theurl5, theurl6, theurl7, theurl8, theurl9, theurl10])
+urls = ([theurl1, theurl2, theurl3, theurl4, theurl5, theurl6])
+#urls = ([theurl1, theurl2, theurl3, theurl4])
 
 def text_from_img_url(img_url):
     """

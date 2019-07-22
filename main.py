@@ -29,6 +29,7 @@ alleAnzeigen=[]
 #liste4 = nuert_liste()
 liste5 = pz_liste()
 #alleAnzeigen = liste1 + liste2 + liste3 + liste4 + liste5
+#alleAnzeigen = liste1 + liste2 + liste3 + liste4
 alleAnzeigen = liste5
 
 
@@ -38,17 +39,17 @@ for Anzeige in alleAnzeigen:
     print(alleAnzeigen[i])
     i=i+1
 
-# wb = load_workbook(filename = 'test.xlsx')
-#
-# dest_filename = 'test.xlsx'
-#
-# ws1 = wb.active
-# ws1.title = "WebData"
-#
-# i=0
-# for Anzeige in alleAnzeigen:
-#     ws1.cell(row=i+1, column=1).value = Anzeige
-#     print(alleAnzeigen[i])
-#     i=i+1
-#
-# wb.save(filename=dest_filename)
+wb = load_workbook(filename = 'test.xlsx')
+
+dest_filename = 'test.xlsx'
+
+ws1 = wb.active
+ws1.title = "WebData"
+
+i=0
+for Anzeige in alleAnzeigen:
+    ws1.cell(row=i+1, column=1).value = Anzeige
+    print(alleAnzeigen[i])
+    i=i+1
+
+wb.save(filename=dest_filename)
