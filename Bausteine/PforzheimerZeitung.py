@@ -1,8 +1,10 @@
 import urllib.request
+import os
 from bs4 import BeautifulSoup
 from PIL import Image
 import pytesseract
 import io
+import re
 from openpyxl import load_workbook
 
 main_site = "https://www.pz-news.de"
@@ -72,10 +74,27 @@ def harvest_url(urls=urls):
                     img_url = "".join([main_site, item.find('a').get('href')])
                     print(img_url)
                     liste.append(str(img_url))
-                    img_text = text_from_img_url(img_url)
-                    liste.append(str(img_text))
-                    print(img_text)
+                    try:
+                        img_text = text_from_img_url(img_url)
+                    except OSError:
+                        continue
+                    text = img_text.replace(r'\r\n', '')
+                    text = text.replace(os.linesep, '')
 
-                    if len(img_text.split('\n')) <= 10:
-                        print(img_text, )
+                    # suchtext = re.search('st', text, flags=0)
+                    # if suchtext is not None:
+                    #     #print(suchtext.start(), suchtext.end(), suchtext.string[:suchtext.end()].rfind(' ',))
+                    #
+                    #     start = suchtext.start()
+                    #     ende = suchtext.string[:suchtext.end()].rfind(' ',)
+                    #     print(suchtext.string[75:80])
+                    #
+                    #     print(dir(suchtext))
+                    #     exit()
+
+                    liste.append(text)
+                    print(text)
+
+                    # if len(img_text.split('\n')) <= 10:
+                    #     print(img_text, )
     return liste
