@@ -5,6 +5,7 @@ import urllib.request
 from bs4 import BeautifulSoup
 from openpyxl import load_workbook
 from pprint import pprint
+import re
 
 _basePath = os.path.realpath(os.path.dirname(__file__))
 sys.path.append(_basePath)
@@ -16,12 +17,6 @@ from Bausteine.WaiblingerWochblatt import harvest_url as waib_liste
 from Bausteine.NuertingerZeitung import harvest_url as nuert_liste
 from Bausteine.PforzheimerZeitung import harvest_url as pz_liste
 
-#reader = XlsxReader("Anzeigen_Flohmarkt.xlsx", path=os.path.dirname(__file__), sheet_name="Anzeigen")
-
-# reader.find_header(header_names=["Datum Suche", "Zeitung", "Bezeichnung",
-#                                  "Datum", "Uhrzeit Start", "Uhrzeit Ende",
-#                                  "Ort", "PLZ", "Straße", "Haus-Nr.", "Zusatz",
-#                                  "Telefon-nummer", "Text"])
 alleAnzeigen=[]
 #liste1 = esz_liste()
 #liste2 = schw_tag_liste()
@@ -46,10 +41,16 @@ dest_filename = 'test.xlsx'
 ws1 = wb.active
 ws1.title = "WebData"
 
-i=0
-for Anzeige in alleAnzeigen:
-    ws1.cell(row=i+1, column=1).value = Anzeige
-    print(alleAnzeigen[i])
-    i=i+1
+for i, anzeige in enumerate(alleAnzeigen):
+
+    suchtext = re.search('st', anzeige, flags=0)
+    if suchtext is not None:
+        #print(dir(suchtext))
+        #exit()
+        ws1.cell(row=i+1, column=1).value = suchtext.group(0)
+
+    ws1.cell(row=i+1, column=4).value = anzeige
+
+    #print(alleAnzeigen[i])
 
 wb.save(filename=dest_filename)
