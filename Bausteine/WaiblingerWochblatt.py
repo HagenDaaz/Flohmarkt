@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from PIL import Image
 import pytesseract
 import io
+import os
 from openpyxl import load_workbook
 
 main_site = "https://www.mein-wochenblatt.de"
@@ -39,11 +40,17 @@ def harvest_url(urls=urls):
 
         for anzeige in soup.findAll('div', {"class": "anzeigenkasten"}):
             img_url=anzeige.find('img').get('src')
-            #print(img_url)
+            print(img_url)
             liste.append(str(img_url))
-            img_text = text_from_img_url(img_url)
-            liste.append(str(img_text))
-            #print(img_text)
+            try:
+                img_text = text_from_img_url(img_url)
+            except OSError:
+                continue
+            text = img_text.replace('\n', ' ')
+            # text = img_text.replace(r'\n\r', '')
+            text = text.replace(os.linesep, ' ')
+            liste.append(text)
+            print(text)
 
     return liste
 

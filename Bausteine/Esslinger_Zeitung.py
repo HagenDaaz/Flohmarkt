@@ -31,7 +31,7 @@ def harvest_url(urls=urls):
 
         for anzeigen in soup.findAll('section', {"class": "nfy-c-adv nfy-c-adv-search-teaser cf"}):
             # print("Anzeige ",Anzeigennr)
-            # print(anzeigen.find('p').text)
+            print(anzeigen.find('p').text)
             liste.append(anzeigen.find('p').text)  # .split('\n') #''.join(
 
     return liste

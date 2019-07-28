@@ -34,7 +34,7 @@ def harvest_url(urls=urls):
     liste = []
     for anzeigen in soup.findAll('article',{"class":"teaser"}):
         #print(anzeigen)
-        #print(anzeigen.find('p').text)
+        print(anzeigen.find('p').text)
         i = i + 1
         liste.append(str(i) + ". " + str(anzeigen.find('p').text))
 

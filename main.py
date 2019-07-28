@@ -22,10 +22,10 @@ liste1 = esz_liste()
 liste2 = schw_tag_liste()
 liste3 = waib_liste()
 liste4 = nuert_liste()
-#liste5 = pz_liste()
-#alleAnzeigen = liste1 + liste2 + liste3 + liste4 + liste5
-alleAnzeigen = liste1 + liste2 + liste3 + liste4
-#alleAnzeigen = liste5
+liste5 = pz_liste()
+alleAnzeigen = liste1 + liste2 + liste3 + liste4 + liste5
+# alleAnzeigen = liste1 + liste2 + liste3 + liste4
+# alleAnzeigen = liste3
 
 
 
@@ -43,13 +43,14 @@ ws1.title = "WebData"
 
 for i, anzeige in enumerate(alleAnzeigen):
 
-    suchtext = re.search('st', anzeige, flags=0)
-    if suchtext is not None:
-        #print(dir(suchtext))
-        #exit()
-        ws1.cell(row=i+1, column=1).value = suchtext.group(0)
-
-    ws1.cell(row=i+1, column=4).value = anzeige
+    # suchtext = re.search('st', anzeige, flags=0)
+    # if suchtext is not None:
+    #     #print(dir(suchtext))
+    #     #exit()
+    #     ws1.cell(row=i+1, column=1).value = suchtext.group(0)
+    #
+    # ws1.cell(row=i+1, column=4).value = anzeige
+    ws1.cell(row=i + 1, column=1).value = anzeige
 
     #print(alleAnzeigen[i])
 

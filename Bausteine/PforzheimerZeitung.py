@@ -78,8 +78,9 @@ def harvest_url(urls=urls):
                         img_text = text_from_img_url(img_url)
                     except OSError:
                         continue
-                    text = img_text.replace(r'\r\n', '')
-                    text = text.replace(os.linesep, '')
+                    text = img_text.replace('\n', ' ')
+                    #text = img_text.replace(r'\n\r', '')
+                    text = text.replace(os.linesep, ' ')
 
                     # suchtext = re.search('st', text, flags=0)
                     # if suchtext is not None:
@@ -91,7 +92,6 @@ def harvest_url(urls=urls):
                     #
                     #     print(dir(suchtext))
                     #     exit()
-
                     liste.append(text)
                     print(text)
 
