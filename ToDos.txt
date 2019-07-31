@@ -1,6 +1,6 @@
-- Fehlerbehandlung siehe Pforzheimer Zeitung
-- S�dwestpresse auslesen
-- Text als eine Zeile formatieren
+﻿- Fehlerbehandlung siehe Pforzheimer Zeitung ERLEDIGT
+- S�dwestpresse auslesen ERLEDIGT
+- Text als eine Zeile formatieren ERLEDIGT
 - Anzeigen manuell aussortieren und dann in die jeweilige Spalte kopieren
 - PDfs auslesen
 - ebayKleinazeigen als Bild importieren ("siehe Screenshot Handy") - weitere Ideen finden

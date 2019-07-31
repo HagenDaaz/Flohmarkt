@@ -16,6 +16,7 @@ from Bausteine.Schw_Tagblatt import harvest_url as schw_tag_liste
 from Bausteine.WaiblingerWochblatt import harvest_url as waib_liste
 from Bausteine.NuertingerZeitung import harvest_url as nuert_liste
 from Bausteine.PforzheimerZeitung import harvest_url as pz_liste
+from Bausteine.Suedwest_Presse import harvest_url as swp_liste
 
 alleAnzeigen=[]
 liste1 = esz_liste()
@@ -23,15 +24,14 @@ liste2 = schw_tag_liste()
 liste3 = waib_liste()
 liste4 = nuert_liste()
 liste5 = pz_liste()
-alleAnzeigen = liste1 + liste2 + liste3 + liste4 + liste5
+liste6 = swp_liste()
+alleAnzeigen = liste1 + liste2 + liste3 + liste4 + liste5 + liste6
 # alleAnzeigen = liste1 + liste2 + liste3 + liste4
-# alleAnzeigen = liste3
-
-
+# alleAnzeigen = liste6
 
 i=0
 for Anzeige in alleAnzeigen:
-    print(alleAnzeigen[i])
+    #print(alleAnzeigen[i])
     i=i+1
 
 wb = load_workbook(filename = 'test.xlsx')

@@ -29,25 +29,18 @@ soup = BeautifulSoup(thepage,"html.parser")
 # ws1 = wb.active
 # ws1.title = "WebData"
 
-def harvest_url(urls=urls):
+def harvest_url():
     i = 0
     liste = []
     for anzeigen in soup.findAll('article',{"class":"teaser"}):
         #print(anzeigen)
-        print(anzeigen.find('p').text)
+        #print(anzeigen.find('p').text)
         i = i + 1
         liste.append(str(i) + ". " + str(anzeigen.find('p').text))
-
+        print(str(i) + ") " + anzeigen.find('p').text)
     return liste
 
-# i=1
-# for Anzeige in liste:
-#     ws1.cell(row=i, column=1).value = Anzeige
-#     #print(liste[i])
-#     i=i+1
 
-
-# wb.save(filename = dest_filename)
 
 
 
