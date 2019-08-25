@@ -21,9 +21,9 @@ theurl7 = "".join([markt_site, "61_pageid,anzeigensuche_rubrik,1172.html"])
 
 urls = ([theurl1, theurl2, theurl3, theurl4, theurl5, theurl6, theurl7])
 
-
 def harvest_url(urls=urls):
     liste = []
+    papernameliste = []
     for eachurl in urls:
         # print("Seite",Seitennr)
         thepage = urllib.request.urlopen(eachurl)
@@ -35,6 +35,7 @@ def harvest_url(urls=urls):
             liste.append(anzeigen.find('p').text)  # .split('\n') #''.join(
 
     return liste
+
 
 # wb = load_workbook(filename = 'test.xlsx')
 #

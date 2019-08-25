@@ -35,7 +35,7 @@ theurl9 = markt_site + page_site4 + end_site2
 theurl10 = markt_site + page_site5 + end_site2
 
 
-print(theurl1)
+# print(theurl1)
 
 #urls = ([theurl1, theurl2, theurl3, theurl4, theurl5, theurl6, theurl7, theurl8, theurl9, theurl10])
 urls = ([theurl1, theurl2, theurl3, theurl4, theurl5, theurl6])
@@ -60,41 +60,30 @@ def harvest_url(urls=urls):
         pageno = pageno + 1
         thepage = urllib.request.urlopen(eachurl)
         soup = BeautifulSoup(thepage, "html.parser")
-        #print(soup.title.text)
-        liste.append(soup.title.text)
+        # print(soup.title.text)
+        # liste.append(soup.title.text)
+        # print(eachurl)
 
         for anzeige in soup.findAll('section', {"class": "nfy-c-adv-advert-image"}):
-            anzeige_url = anzeige.find('a').get('href')
+            # print(anzeige.find('img').get('src'))
+            anzeige_url = anzeige.find('img').get('src')
+            # print(anzeige_url.text)
+            # print(anzeige)
+
             if anzeige_url:
                 # alle anzeigen, wenn anzeige_url
-                this_url = "".join([main_site, anzeige_url])
-                sub_soup = BeautifulSoup(urllib.request.urlopen(this_url), "html.parser")
+                img_url = "".join([main_site, anzeige_url])
+                print(img_url)
+                liste.append(str(img_url))
 
-                for item in sub_soup.findAll('aside', {"class": "nfy-c-adv-advert-image"}):
-                    img_url = "".join([main_site, item.find('a').get('href')])
-                    print(img_url)
-                    liste.append(str(img_url))
-                    try:
-                        img_text = text_from_img_url(img_url)
-                    except OSError:
-                        continue
-                    text = img_text.replace('\n', ' ')
-                    #text = img_text.replace(r'\n\r', '')
-                    text = text.replace(os.linesep, ' ')
+                try:
+                    img_text = text_from_img_url(img_url)
+                except OSError:
+                    continue
+                text = img_text.replace('\n', ' ')
+                # text = img_text.replace(r'\n\r', '')
+                text = text.replace(os.linesep, ' ')
+                liste.append(text)
+                print(text)
 
-                    # suchtext = re.search('st', text, flags=0)
-                    # if suchtext is not None:
-                    #     #print(suchtext.start(), suchtext.end(), suchtext.string[:suchtext.end()].rfind(' ',))
-                    #
-                    #     start = suchtext.start()
-                    #     ende = suchtext.string[:suchtext.end()].rfind(' ',)
-                    #     print(suchtext.string[75:80])
-                    #
-                    #     print(dir(suchtext))
-                    #     exit()
-                    liste.append(text)
-                    print(text)
-
-                    # if len(img_text.split('\n')) <= 10:
-                    #     print(img_text, )
     return liste
